@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "766980190331",
+    "project_id": "fir-web-app-f00e0",
+    "storage_bucket": "fir-web-app-f00e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766980190331:android:4ba46e36ce816ca4ecf2de",
+        "android_client_info": {
+          "package_name": "com.example.flutter_web_app_todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766980190331-rp3n1l2ud81nal2smh8luc3mdpuhc4fp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD634f9kLL6SGVh8b6z1LSspjvGMRPGmbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766980190331-rp3n1l2ud81nal2smh8luc3mdpuhc4fp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
