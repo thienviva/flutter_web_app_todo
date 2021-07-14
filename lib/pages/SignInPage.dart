@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import 'HomePage.dart';
+import 'SignUpPage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(
                 height: 15,
               ),
-              buttonItem("assets/phone.svg", "Sử dụng điện thoại", 30),
+              buttonItem("assets/phone.svg", "Sử dụng Điện Thoại", 30),
               SizedBox(
                 height: 15,
               ),
@@ -76,12 +77,20 @@ class _SignInPageState extends State<SignInPage> {
                       fontSize: 18,
                     ),
                   ),
-                  Text(
-                    " Đăng ký ngay",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (builder) => SignUpPage()),
+                          (route) => false);
+                    },
+                    child: Text(
+                      " Đăng ký ngay",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
