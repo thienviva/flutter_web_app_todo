@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_web_app_todo/pages/HomePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,6 +12,8 @@ class AuthClass {
   GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final storage = new FlutterSecureStorage();
+
+  final FacebookLogin facebookSignIn = new FacebookLogin();
 
   Future<void> googleSignIn(BuildContext context) async {
     try {
@@ -41,6 +45,38 @@ class AuthClass {
     } catch (e) {
       final snackbar = SnackBar(content: Text(e.toString()));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
+
+  Future<Null> fbSignIn(BuildContext context) async {
+    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final FacebookAccessToken accessToken = result.accessToken;
+        final snackbar = SnackBar(content: Text('''
+         Logged in!
+         
+         Token: ${accessToken.token}
+         User id: ${accessToken.userId}
+         Expires: ${accessToken.expires}
+         Permissions: ${accessToken.permissions}
+         Declined permissions: ${accessToken.declinedPermissions}
+         '''));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (builder) => HomePage()),
+            (route) => false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        final snackbar =
+            SnackBar(content: Text('Login cancelled by the user.'));
+        break;
+      case FacebookLoginStatus.error:
+        final snackbar = SnackBar(
+            content: Text('Something went wrong with the login process.\n'
+                'Here\'s the error Facebook gave us: ${result.errorMessage}'));
+        break;
     }
   }
 

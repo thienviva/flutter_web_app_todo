@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Flutter login with Facebook</string>
+    <!--Bạn copy hai dòng đầu tiên dán vào đây-->
+    <!--Ví dụ-->
+    <string name="facebook_app_id">851738875547983</string> 
+    <string name="fb_login_protocol_scheme">fb851738875547983</string>
+
+</resources>

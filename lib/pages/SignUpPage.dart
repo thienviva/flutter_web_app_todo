@@ -48,6 +48,14 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 15,
               ),
+              buttonItem(
+                  "assets/facebook.svg", "Sử dụng tài khoản Facebook", 30,
+                  () async {
+                await authClass.fbSignIn(context);
+              }),
+              SizedBox(
+                height: 15,
+              ),
               buttonItem("assets/phone.svg", "Sử dụng Điện Thoại", 30, () {}),
               SizedBox(
                 height: 15,
