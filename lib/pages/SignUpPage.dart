@@ -48,8 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 15,
               ),
-              buttonItem(
-                  "assets/phone.svg", "Sử dụng Điện Thoại", 30, () async {}),
+              buttonItem("assets/phone.svg", "Sử dụng Điện Thoại", 30, () {}),
               SizedBox(
                 height: 15,
               ),
@@ -160,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget buttonItem(
-      String imagepath, String buttonName, double size, Function() onTap) {
+      String imagepath, String buttonName, double size, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Container(
