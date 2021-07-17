@@ -54,28 +54,21 @@ class AuthClass {
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
-        final snackbar = SnackBar(content: Text('''
-         Logged in!
-         
-         Token: ${accessToken.token}
-         User id: ${accessToken.userId}
-         Expires: ${accessToken.expires}
-         Permissions: ${accessToken.permissions}
-         Declined permissions: ${accessToken.declinedPermissions}
-         '''));
+        final snackbar =
+            SnackBar(content: Text("Đăng nhập bằng Facebook thành công!"));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (builder) => HomePage()),
             (route) => false);
         break;
       case FacebookLoginStatus.cancelledByUser:
-        final snackbar =
-            SnackBar(content: Text('Login cancelled by the user.'));
+        final snackbar = SnackBar(content: Text("Yêu cầu đã được hủy!"));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
         break;
       case FacebookLoginStatus.error:
-        final snackbar = SnackBar(
-            content: Text('Something went wrong with the login process.\n'
-                'Here\'s the error Facebook gave us: ${result.errorMessage}'));
+        final snackbar = SnackBar(content: Text("Không thể đăng nhập!"));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
         break;
     }
   }
@@ -97,5 +90,63 @@ class AuthClass {
       await auth.signOut();
       await storage.delete(key: "token");
     } catch (e) {}
+  }
+
+  Future<void> verifyPhoneNumber(
+      String phoneNumber, BuildContext context, Function setData) async {
+    PhoneVerificationCompleted verificationCompleted =
+        (PhoneAuthCredential phoneAuthCredential) async {
+      showSnackBar(context, "Verification Completed");
+    };
+    PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException exception) {
+      showSnackBar(context, exception.toString());
+    };
+    PhoneCodeSent codeSent =
+        (String verificationID, [int? forceResnedingtoken]) {
+      showSnackBar(context, "Verification Code sent on the phone number");
+      setData(verificationID);
+    };
+
+    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationID) {
+      showSnackBar(context, "Time out");
+    };
+    try {
+      await auth.verifyPhoneNumber(
+          timeout: Duration(seconds: 60),
+          phoneNumber: phoneNumber,
+          verificationCompleted: verificationCompleted,
+          verificationFailed: verificationFailed,
+          codeSent: codeSent,
+          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> signInwithPhoneNumber(
+      String verificationId, String smsCode, BuildContext context) async {
+    try {
+      AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+      storeTokenAndData(userCredential);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (builder) => HomePage()),
+          (route) => false);
+
+      showSnackBar(context, "logged In");
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void showSnackBar(BuildContext context, String text) {
+    final snackBar = SnackBar(content: Text(text));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

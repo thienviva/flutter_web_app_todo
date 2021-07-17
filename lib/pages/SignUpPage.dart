@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_web_app_todo/Service/Auth_Service.dart';
 import 'package:flutter_web_app_todo/pages/HomePage.dart';
+import 'package:flutter_web_app_todo/pages/PhoneAuthPage.dart';
 import 'package:flutter_web_app_todo/pages/SignInPage.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -56,7 +57,10 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 15,
               ),
-              buttonItem("assets/phone.svg", "Sử dụng Điện Thoại", 30, () {}),
+              buttonItem("assets/phone.svg", "Sử dụng Số Điện Thoại", 30, () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
+              }),
               SizedBox(
                 height: 15,
               ),
