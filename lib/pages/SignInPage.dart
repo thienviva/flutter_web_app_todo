@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_web_app_todo/Service/Auth_Service.dart';
+import 'package:flutter_web_app_todo/pages/PhoneAuthPage.dart';
+import 'package:flutter_web_app_todo/pages/ForgotPasswordPage.dart';
 import 'HomePage.dart';
 import 'SignUpPage.dart';
 
@@ -42,13 +44,24 @@ class _SignInPageState extends State<SignInPage> {
                 height: 20,
               ),
               buttonItem("assets/google.svg", "Sử dụng tài khoản Google", 25,
-                  () {
-                authClass.googleSignIn(context);
+                  () async {
+                await authClass.googleSignIn(context);
               }),
               SizedBox(
                 height: 15,
               ),
-              buttonItem("assets/phone.svg", "Sử dụng Điện Thoại", 30, () {}),
+              buttonItem(
+                  "assets/facebook.svg", "Sử dụng tài khoản Facebook", 30,
+                  () async {
+                await authClass.fbSignIn(context);
+              }),
+              SizedBox(
+                height: 15,
+              ),
+              buttonItem("assets/phone.svg", "Sử dụng Số Điện Thoại", 30, () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
+              }),
               SizedBox(
                 height: 15,
               ),
@@ -102,12 +115,18 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "Quên mật khẩu",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => ResetPassword()));
+                },
+                child: Text(
+                  "Quên mật khẩu",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

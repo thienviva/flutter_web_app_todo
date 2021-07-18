@@ -96,7 +96,7 @@ class AuthClass {
       String phoneNumber, BuildContext context, Function setData) async {
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
-      showSnackBar(context, "Verification Completed");
+      showSnackBar(context, "Đã hoàn thành việc xác minh");
     };
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException exception) {
@@ -104,13 +104,13 @@ class AuthClass {
     };
     PhoneCodeSent codeSent =
         (String verificationID, [int? forceResnedingtoken]) {
-      showSnackBar(context, "Verification Code sent on the phone number");
+      showSnackBar(context, "Mã xác minh được gửi đến số điện thoại của bạn");
       setData(verificationID);
     };
 
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationID) {
-      showSnackBar(context, "Time out");
+      showSnackBar(context, "Hết thời gian!");
     };
     try {
       await auth.verifyPhoneNumber(
@@ -139,7 +139,7 @@ class AuthClass {
           MaterialPageRoute(builder: (builder) => HomePage()),
           (route) => false);
 
-      showSnackBar(context, "logged In");
+      showSnackBar(context, "Bạn đã đăng nhập thành công bằng Số Điện Thoại");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -148,5 +148,14 @@ class AuthClass {
   void showSnackBar(BuildContext context, String text) {
     final snackBar = SnackBar(content: Text(text));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<bool> resetpassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
